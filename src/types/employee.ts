@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 /**
  * 従業員情報を表すクラス.
  *
@@ -31,7 +33,10 @@ export class Employee {
     // 扶養人数
     private _dependentsCount: number
   ) {}
-
+  //給料の表記を1000円単位でカンマを入れる
+  get formatSalary(): string {
+    return this._salary.toLocaleString();
+  }
   public get id(): number {
     return this._id;
   }
