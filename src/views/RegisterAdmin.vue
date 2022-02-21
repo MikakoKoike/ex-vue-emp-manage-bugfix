@@ -1,9 +1,11 @@
 <template>
   <div class="container">
     <div class="row register-page">
+
       <div class="error" v-for="error of errors" v-bind:key="error">
         {{ error }}
       </div>
+
       <div class="error">{{ errorMessage }}</div>
       <form class="col s12" id="reg-form">
         <div class="row">
@@ -103,13 +105,6 @@ export default class RegisterAdmin extends Vue {
    * @returns Promiseオブジェクト
    */
   async registerAdmin(): Promise<void> {
-    // 管理者登録処理
-    const response = await axios.post(`${config.EMP_WEBAPI_URL}/insert`, {
-      name: this.lastName + " " + this.firstName,
-      mailAddress: this.mailAddress,
-      password: this.password,
-    });
-    console.dir("response:" + JSON.stringify(response));
 
     // エラーチェック
     this.errors = [];
@@ -127,8 +122,23 @@ export default class RegisterAdmin extends Vue {
       return;
     }
 
-    // ログイン画面へ移行するよう変更済
-    this.$router.push("/loginAdmin");
+    // 管理者登録処理
+    const response = await axios.post(`${config.EMP_WEBAPI_URL}/insert`, {
+      name: this.lastName + " " + this.firstName,
+      mailAddress: this.mailAddress,
+      password: this.password,
+    });
+    console.dir("response:" + JSON.stringify(response));
+
+    //Eメール重複チェック
+    if (response.data.status === "success") {
+      this.$router.push("/loginAdmin");
+    } else {
+      // 既に登録しているメールアドレスの場合はエラーメッセージを表示する
+      this.errorMessage = "登録が失敗しました";
+      console.log(this.errorMessage);
+    }
+
   }
 }
 </script>
