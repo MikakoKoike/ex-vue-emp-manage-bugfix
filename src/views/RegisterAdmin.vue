@@ -1,6 +1,10 @@
 <template>
   <div class="container">
     <div class="row register-page">
+      <div class="error" v-for="error of errors" v-bind:key="error">
+        {{ error }}
+      </div>
+      <div class="error">{{ errorMessage }}</div>
       <form class="col s12" id="reg-form">
         <div class="row">
           <div class="input-field col s6">
@@ -13,12 +17,14 @@
             />
             <label for="last_name">姓</label>
           </div>
+
           <div class="input-field col s6">
             <input
               id="first_name"
               type="text"
               class="validate"
               v-model="firstName"
+              value=""
               required
             />
             <label for="first_name">名</label>
@@ -84,6 +90,10 @@ export default class RegisterAdmin extends Vue {
   private mailAddress = "";
   // パスワード
   private password = "";
+  //エラーメッセージ（登録）
+  private errorMessage = "";
+  // 入力値チェックのエラーメッセージ
+  private errors: Array<string> = [];
 
   /**
    * 管理者情報を登録する.
@@ -101,8 +111,24 @@ export default class RegisterAdmin extends Vue {
     });
     console.dir("response:" + JSON.stringify(response));
 
-    // ログイン画面へ移行するよう変更
-    this.$router.push("/LoginAdmin");
+    // エラーチェック
+    this.errors = [];
+    if (this.lastName === "" || this.firstName === "") {
+      this.errors.push("姓または名が入力されていません");
+    }
+    if (this.mailAddress === "") {
+      this.errors.push("メールアドレスが入力されていません");
+    }
+    if (this.password === "") {
+      this.errors.push("パスワードが入力されていません");
+    }
+    // エラーが１つ以上あれば処理を止める
+    if (0 < this.errors.length) {
+      return;
+    }
+
+    // ログイン画面へ移行するよう変更済
+    this.$router.push("/loginAdmin");
   }
 }
 </script>
