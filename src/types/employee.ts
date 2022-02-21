@@ -4,6 +4,7 @@
  * @remarks
  * 従業員情報を表します。
  */
+import { format } from "date-fns";
 export class Employee {
   constructor(
     // ID
@@ -31,6 +32,10 @@ export class Employee {
     // 扶養人数
     private _dependentsCount: number
   ) {}
+  //入社日の表記を「yyyy年MM月dd日」というフォーマットに変更する
+  public get formatHireDate(): string {
+    return format(this._hireDate, "yyyy年MM月dd日");
+  }
 
   public get id(): number {
     return this._id;
