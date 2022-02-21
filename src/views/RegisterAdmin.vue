@@ -101,7 +101,8 @@ export default class RegisterAdmin extends Vue {
     });
     console.dir("response:" + JSON.stringify(response));
 
-    this.$router.push("/employeeList");
+    // ログイン画面へ移行するよう変更
+    this.$router.push("/LoginAdmin");
   }
 }
 </script>
