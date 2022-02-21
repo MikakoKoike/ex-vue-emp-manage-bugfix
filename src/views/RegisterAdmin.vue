@@ -103,6 +103,7 @@ export default class RegisterAdmin extends Vue {
       password: this.password,
     });
     console.dir("response:" + JSON.stringify(response));
+
     //Eメール重複チェック
     if (response.data.status === "success") {
       this.$router.push("/loginAdmin");
