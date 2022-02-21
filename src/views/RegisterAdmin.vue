@@ -1,6 +1,11 @@
 <template>
   <div class="container">
     <div class="row register-page">
+
+      <div class="error" v-for="error of errors" v-bind:key="error">
+        {{ error }}
+      </div>
+
       <div class="error">{{ errorMessage }}</div>
       <form class="col s12" id="reg-form">
         <div class="row">
@@ -14,12 +19,14 @@
             />
             <label for="last_name">姓</label>
           </div>
+
           <div class="input-field col s6">
             <input
               id="first_name"
               type="text"
               class="validate"
               v-model="firstName"
+              value=""
               required
             />
             <label for="first_name">名</label>
@@ -85,8 +92,10 @@ export default class RegisterAdmin extends Vue {
   private mailAddress = "";
   // パスワード
   private password = "";
-  //エラーメッセージ
+  //エラーメッセージ（登録）
   private errorMessage = "";
+  // 入力値チェックのエラーメッセージ
+  private errors: Array<string> = [];
 
   /**
    * 管理者情報を登録する.
@@ -96,6 +105,23 @@ export default class RegisterAdmin extends Vue {
    * @returns Promiseオブジェクト
    */
   async registerAdmin(): Promise<void> {
+
+    // エラーチェック
+    this.errors = [];
+    if (this.lastName === "" || this.firstName === "") {
+      this.errors.push("姓または名が入力されていません");
+    }
+    if (this.mailAddress === "") {
+      this.errors.push("メールアドレスが入力されていません");
+    }
+    if (this.password === "") {
+      this.errors.push("パスワードが入力されていません");
+    }
+    // エラーが１つ以上あれば処理を止める
+    if (0 < this.errors.length) {
+      return;
+    }
+
     // 管理者登録処理
     const response = await axios.post(`${config.EMP_WEBAPI_URL}/insert`, {
       name: this.lastName + " " + this.firstName,
@@ -112,6 +138,7 @@ export default class RegisterAdmin extends Vue {
       this.errorMessage = "登録が失敗しました";
       console.log(this.errorMessage);
     }
+
   }
 }
 </script>
