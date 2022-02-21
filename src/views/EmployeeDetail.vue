@@ -4,7 +4,9 @@
     <nav>
       <div class="nav-wrapper">
         <div class="col s12 teal">
-          <a class="breadcrumb">従業員リスト</a>
+          <router-link to="/employeeList" class="breadcrumb"
+            >従業員リスト</router-link
+          >
           <a class="breadcrumb">従業員詳細</a>
         </div>
       </div>
@@ -34,7 +36,7 @@
             </tr>
             <tr>
               <th nowrap>入社日</th>
-              <td><span v-html="currentEmployee.hireDate"></span></td>
+              <td><span v-html="currentEmployee.formatHireDate"></span></td>
             </tr>
             <tr>
               <th nowrap>メールアドレス</th>
@@ -106,6 +108,7 @@ import { Component, Vue } from "vue-property-decorator";
 import config from "@/const/const";
 import { Employee } from "@/types/employee";
 import axios from "axios";
+import { format } from "date-fns";
 
 /**
  * 従業員詳細を表示する画面.
@@ -153,7 +156,7 @@ export default class EmployeeDetail extends Vue {
 
     // 今取得した従業員情報から画像パスを取り出し、imgディレクトリの名前を前に付与(文字列連結)してcurrentEmployeeImage属性に代入する
     this.currentEmployeeImage = `${config.EMP_WEBAPI_URL}/img/${this.currentEmployee.image}`;
-    
+
     // 今取得した従業員情報から扶養人数を取り出し、currentDependentsCount属性に代入する
     this.currentDependentsCount = this.currentEmployee.dependentsCount;
   }
