@@ -8,10 +8,13 @@
         </div>
       </div>
     </nav>
-    <!-- <form class="search">
+
+    <form class="search">
       従業員名検索：<input type="text" v-model="name" />
-      <button type="button" v-on:click="searchName">検索</button> -->
-    <!-- </form> -->
+      <button type="button" v-on:click="searchName">検索</button>
+      <div>{{ searchErrorMessage }}</div>
+    </form>
+
     <div>従業員数:{{ getEmployeeCount }}人</div>
     <div class="row">
       <table class="striped">
@@ -52,8 +55,12 @@ export default class EmployeeList extends Vue {
   private currentEmployeeList: Array<Employee> = [];
   // 従業員数
   private employeeCount = 0;
-  //従業員名
+
+  //曖昧検索する名前
   private name = "";
+  //検索値が該当しない場合のエラーメッセージ
+  private searchErrorMessage = "";
+
 
   /**
    * Vuexストアのアクション経由で非同期でWebAPIから従業員一覧を取得する.
@@ -81,10 +88,24 @@ export default class EmployeeList extends Vue {
   get getEmployeeCount(): number {
     return this.currentEmployeeList.length;
   }
-  private searchErrorMessage = "";
+
   /**
    * 従業員曖昧検索
    */
+  searchName(): void {
+    //Vuexストア内、gettersの絞り込まれたemployeeオブジェクトを取得し返す
+    this.currentEmployeeList = this.$store.getters.getSearchEmployeeByName(
+      this.name
+    );
+    //該当する値がない場合のエラーメッセージを初期化する
+    this.searchErrorMessage = "";
+    //該当する値がない場合（空の配列が返ってくる場合）はエラーメッセージを表示し、全件表示させる
+    if (this.currentEmployeeList.length === 0) {
+      this.currentEmployeeList = this.$store.getters.getAllEmployees;
+      this.searchErrorMessage = "1件もありませんでしたので全件表示します";
+    }
+  }
+
 }
 </script>
 
