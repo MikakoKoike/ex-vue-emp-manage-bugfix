@@ -129,12 +129,11 @@ export default class RegisterAdmin extends Vue {
     if (this.mailAddress === "") {
       this.errors.push("メールアドレスが入力されていません");
     }
-    if (this.password != this.confirmationPassword) {
-      this.errors.push("パスワードが一致しません");
-    } else if (this.password === "") {
+
+    if (this.password === "") {
       this.errors.push("パスワードが入力されていません");
-    } else {
-      console.log("無効な値です");
+    } else if (this.password != this.confirmationPassword) {
+      this.errors.push("パスワードが一致しません");
     }
 
     // エラーが１つ以上あれば処理を止める
