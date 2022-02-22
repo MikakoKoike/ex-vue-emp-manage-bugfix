@@ -8,6 +8,11 @@
         </div>
       </div>
     </nav>
+    <form class="search">
+      従業員名検索：<input type="text" v-model="name" />
+      <button type="button" v-on:click="searchName(name)">検索</button>
+      <div v-for="Name of searchName(name)" v-bind:key="Name.id"></div>
+    </form>
     <div>従業員数:{{ getEmployeeCount }}人</div>
     <div class="row">
       <table class="striped">
@@ -74,7 +79,26 @@ export default class EmployeeList extends Vue {
    */
   get getEmployeeCount(): number {
     return this.currentEmployeeList.length;
+  } //従業員名
+  /**
+   * 従業員曖昧検索
+   */
+
+  private name = "";
+  private searchList = [];
+  private searchErrorMessage = "";
+  //Vuexストア内、gettersの絞り込まれたemployeeオブジェクトを取得し返す
+  searchName(): Array<Employee> {
+    // return this.$store.getters.getSearchEmployeeByName(this.name);
+    return (this.currentEmployeeList = this.$store.getters.getSearchEmployeeByName(
+      this.name
+    ));
   }
+  //  if(getSearchEmployeeByName.indexOf(name) != -1){
+  //     this.searchList.push(this.name)
+  //   }else{
+  //   this.searchErrorMessage ="1件もありませんでしたので全件表示します"
+  //   }
 }
 </script>
 
@@ -89,5 +113,8 @@ export default class EmployeeList extends Vue {
   display: block;
   width: 150px;
   margin: 0 auto;
+}
+.serch {
+  text-align: center;
 }
 </style>
