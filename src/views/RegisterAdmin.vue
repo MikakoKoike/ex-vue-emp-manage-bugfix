@@ -121,13 +121,6 @@ export default class RegisterAdmin extends Vue {
    * @returns Promiseオブジェクト
    */
   async registerAdmin(): Promise<void> {
-    //パスワードエラー確認
-    if (!(this.password === this.confirmationPassword)) {
-      this.errorMessagePassword = "パスワードが一致しません";
-      console.log(this.errorMessagePassword);
-      return;
-    }
-
     // エラーチェック
     this.errors = [];
     if (this.lastName === "" || this.firstName === "") {
@@ -136,12 +129,14 @@ export default class RegisterAdmin extends Vue {
     if (this.mailAddress === "") {
       this.errors.push("メールアドレスが入力されていません");
     }
-    if (this.password === "") {
+    if (this.password != this.confirmationPassword) {
+      this.errors.push("パスワードが一致しません");
+    } else if (this.password === "") {
       this.errors.push("パスワードが入力されていません");
+    } else {
+      console.log("無効な値です");
     }
-    // if (this.password != this.confirmationPassword) {
-    //   this.errors.push("パスワードが一致しません");
-    // }
+
     // エラーが１つ以上あれば処理を止める
     if (0 < this.errors.length) {
       return;
