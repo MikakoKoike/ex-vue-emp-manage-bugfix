@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <div class="row register-page">
-
       <div class="error" v-for="error of errors" v-bind:key="error">
         {{ error }}
       </div>
@@ -57,6 +56,19 @@
             <label for="password">パスワード</label>
           </div>
         </div>
+
+        <div class="input-field col s12">
+          <input
+            id="password"
+            type="password"
+            class="validate"
+            minlength="8"
+            v-model="confirmationPassword"
+            required
+          />
+          <label for="password">パスワード（確認）</label>
+          <div class="error">{{ errorMessagePassword }}</div>
+        </div>
         <div class="row">
           <div class="input-field col s6">
             <button
@@ -92,6 +104,10 @@ export default class RegisterAdmin extends Vue {
   private mailAddress = "";
   // パスワード
   private password = "";
+  //確認用パスワード
+  private confirmationPassword = "";
+  //エラーメッセージ（パスワード）
+  private errorMessagePassword = "";
   //エラーメッセージ（登録）
   private errorMessage = "";
   // 入力値チェックのエラーメッセージ
@@ -105,7 +121,6 @@ export default class RegisterAdmin extends Vue {
    * @returns Promiseオブジェクト
    */
   async registerAdmin(): Promise<void> {
-
     // エラーチェック
     this.errors = [];
     if (this.lastName === "" || this.firstName === "") {
@@ -114,9 +129,13 @@ export default class RegisterAdmin extends Vue {
     if (this.mailAddress === "") {
       this.errors.push("メールアドレスが入力されていません");
     }
+
     if (this.password === "") {
       this.errors.push("パスワードが入力されていません");
+    } else if (this.password != this.confirmationPassword) {
+      this.errors.push("パスワードが一致しません");
     }
+
     // エラーが１つ以上あれば処理を止める
     if (0 < this.errors.length) {
       return;
@@ -138,7 +157,6 @@ export default class RegisterAdmin extends Vue {
       this.errorMessage = "登録が失敗しました";
       console.log(this.errorMessage);
     }
-
   }
 }
 </script>
