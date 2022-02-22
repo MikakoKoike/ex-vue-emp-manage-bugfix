@@ -66,10 +66,12 @@
             </tr>
             <tr>
               <th nowrap>給料</th>
+
               <td>
                 <span>{{ currentEmployee.formatSalary }}</span
                 >円
               </td>
+
             </tr>
             <tr>
               <th nowrap>特性</th>
