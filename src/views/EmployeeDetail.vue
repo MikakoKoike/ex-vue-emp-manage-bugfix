@@ -153,13 +153,34 @@ export default class EmployeeDetail extends Vue {
    * Vuexストア内のGetterを呼ぶ。
    * ライフサイクルフックのcreatedイベント利用
    */
-  created(): void {
+  async created(): Promise<void> {
     // 送られてきたリクエストパラメータのidをnumberに変換して取得する
     const employeeId = parseInt(this.$route.params.id);
 
     // VuexストアのGetter、getEmployeeById()メソッドに先ほど取得したIDを渡し、１件の従業員情報を取得し、戻り値をcurrentEmployee属性に代入する
     this.currentEmployee = this.$store.getters.getEmployeeById(employeeId);
 
+    //WebAPIの追加
+    const response = await axios.get(
+      `http://153.127.48.168:8080/ex-emp-api/employee/${employeeId}`
+    );
+
+    let responseData = response.data.employee;
+    this.currentEmployee = new Employee(
+      responseData.id,
+      responseData.name,
+      responseData.image,
+      responseData.gender,
+      new Date(responseData.hireDate),
+      responseData.mailAddress,
+      responseData.zipCode,
+      responseData.address,
+      responseData.telephone,
+      responseData.salary,
+      responseData.characteristics,
+      responseData.dependentsCount
+    );
+    console.log(this.currentEmployee);
     // 今取得した従業員情報から画像パスを取り出し、imgディレクトリの名前を前に付与(文字列連結)してcurrentEmployeeImage属性に代入する
     this.currentEmployeeImage = `${config.EMP_WEBAPI_URL}/img/${this.currentEmployee.image}`;
 
