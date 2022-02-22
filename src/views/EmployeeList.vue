@@ -92,12 +92,13 @@ export default class EmployeeList extends Vue {
     this.currentEmployeeList = this.$store.getters.getSearchEmployeeByName(
       this.name
     );
+    //該当する値がない場合のエラーメッセージを初期化する
+    this.searchErrorMessage = "";
     //該当する値がない場合（空の配列が返ってくる場合）はエラーメッセージを表示し、全件表示させる
     if (this.currentEmployeeList.length === 0) {
       this.currentEmployeeList = this.$store.getters.getAllEmployees;
+      this.searchErrorMessage = "1件もありませんでしたので全件表示します";
     }
-    this.searchErrorMessage = "1件もありませんでしたので全件表示します";
-    console.log(this.searchErrorMessage);
   }
 }
 </script>
