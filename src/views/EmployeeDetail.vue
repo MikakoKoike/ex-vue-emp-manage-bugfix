@@ -19,7 +19,7 @@
             <tr>
               <th nowrap>従業員名</th>
               <td>
-                <span v-html="currentEmployee.name"></span>
+                <span>{{ currentEmployee.name }}</span>
               </td>
             </tr>
             <tr>
@@ -31,23 +31,25 @@
             <tr>
               <th nowrap>性別</th>
               <td>
-                <span v-html="currentEmployee.gender"></span>
+                <span>{{ currentEmployee.gender }}</span>
               </td>
             </tr>
             <tr>
               <th nowrap>入社日</th>
-              <td><span v-html="currentEmployee.formatHireDate"></span></td>
+              <td>
+                <span>{{ currentEmployee.formatHireDate }}</span>
+              </td>
             </tr>
             <tr>
               <th nowrap>メールアドレス</th>
               <td>
-                <span v-html="currentEmployee.mailAddress"></span>
+                <span>{{ currentEmployee.mailAddress }}</span>
               </td>
             </tr>
             <tr>
               <th nowrap>郵便番号</th>
               <td>
-                <span v-html="currentEmployee.zipCode"></span>
+                <span>{{ currentEmployee.zipCode }}</span>
               </td>
             </tr>
             <tr>
@@ -64,12 +66,17 @@
             </tr>
             <tr>
               <th nowrap>給料</th>
-              <td><span v-html="currentEmployee.salary"></span>円</td>
+
+              <td>
+                <span>{{ currentEmployee.formatSalary }}</span
+                >円
+              </td>
+
             </tr>
             <tr>
               <th nowrap>特性</th>
               <td>
-                <span v-html="currentEmployee.characteristics"></span>
+                <span>{{ currentEmployee.characteristics }}</span>
               </td>
             </tr>
             <tr>
@@ -108,7 +115,6 @@ import { Component, Vue } from "vue-property-decorator";
 import config from "@/const/const";
 import { Employee } from "@/types/employee";
 import axios from "axios";
-import { format } from "date-fns";
 
 /**
  * 従業員詳細を表示する画面.
