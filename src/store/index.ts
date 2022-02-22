@@ -36,6 +36,13 @@ export default new Vuex.Store({
   }, // end actions
   mutations: {
     /**
+     * 従業員一覧を入社日の降順で表示する
+     * @param state
+     * @param payload
+     */
+    // let DesOrderHireDate =
+    // employees.sort(function(a,b))
+    /**
      * 従業員一覧情報を作成してstateに格納する.
      *
      * @param context コンテキスト
