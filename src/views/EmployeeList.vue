@@ -8,11 +8,13 @@
         </div>
       </div>
     </nav>
+
     <form class="search">
       従業員名検索：<input type="text" v-model="name" />
       <button type="button" v-on:click="searchName">検索</button>
       <div>{{ searchErrorMessage }}</div>
     </form>
+
     <div>従業員数:{{ getEmployeeCount }}人</div>
     <div class="row">
       <table class="striped">
@@ -53,10 +55,12 @@ export default class EmployeeList extends Vue {
   private currentEmployeeList: Array<Employee> = [];
   // 従業員数
   private employeeCount = 0;
+
   //曖昧検索する名前
   private name = "";
   //検索値が該当しない場合のエラーメッセージ
   private searchErrorMessage = "";
+
 
   /**
    * Vuexストアのアクション経由で非同期でWebAPIから従業員一覧を取得する.
@@ -84,6 +88,7 @@ export default class EmployeeList extends Vue {
   get getEmployeeCount(): number {
     return this.currentEmployeeList.length;
   }
+
   /**
    * 従業員曖昧検索
    */
@@ -100,6 +105,7 @@ export default class EmployeeList extends Vue {
       this.searchErrorMessage = "1件もありませんでしたので全件表示します";
     }
   }
+
 }
 </script>
 
