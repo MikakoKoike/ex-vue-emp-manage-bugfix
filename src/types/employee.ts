@@ -32,6 +32,12 @@ export class Employee {
     // 扶養人数
     private _dependentsCount: number
   ) {}
+
+  //給料の表記を1000円単位でカンマを入れる
+  get formatSalary(): string {
+    return this._salary.toLocaleString();
+  }
+
   //入社日の表記を「yyyy年MM月dd日」というフォーマットに変更する
   public get formatHireDate(): string {
     return format(this._hireDate, "yyyy年MM月dd日");
