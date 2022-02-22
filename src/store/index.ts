@@ -41,7 +41,7 @@ export default new Vuex.Store({
      * @param payload
      */
     // let DesOrderHireDate =
-    // employees.sort(function(a,b))
+
     /**
      * 従業員一覧情報を作成してstateに格納する.
      *
@@ -77,6 +77,21 @@ export default new Vuex.Store({
           )
         );
       }
+      state.employees.sort(function(
+        beforeEmployee: Employee,
+        afterEmployee: Employee
+      ) {
+        //ある順序の基準において a が b より小
+        if (beforeEmployee.hireDate < afterEmployee.hireDate) {
+          return -1;
+        }
+        //その順序の基準において a が b より大
+        if (beforeEmployee.hireDate > afterEmployee.hireDate) {
+          return 1;
+        }
+        // a は b と等しいはず
+        return 0;
+      });
     },
   }, // end mutations
   getters: {
